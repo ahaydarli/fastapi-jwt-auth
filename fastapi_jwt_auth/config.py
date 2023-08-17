@@ -56,13 +56,13 @@ class LoadConfig(BaseModel):
             raise ValueError("The 'authjwt_refresh_token_expires' only accept value False (bool)")
         return v
 
-    @validator('authjwt_denylist_token_checks', each_item=True)
+    @validator('authjwt_denylist_token_checks')
     def validate_denylist_token_checks(cls, v):
         if v not in ['access','refresh']:
             raise ValueError("The 'authjwt_denylist_token_checks' must be between 'access' or 'refresh'")
         return v
 
-    @validator('authjwt_token_location', each_item=True)
+    @validator('authjwt_token_location')
     def validate_token_location(cls, v):
         if v not in ['headers','cookies']:
             raise ValueError("The 'authjwt_token_location' must be between 'headers' or 'cookies'")
@@ -74,7 +74,7 @@ class LoadConfig(BaseModel):
             raise ValueError("The 'authjwt_cookie_samesite' must be between 'strict', 'lax', 'none'")
         return v
 
-    @validator('authjwt_csrf_methods', each_item=True)
+    @validator('authjwt_csrf_methods')
     def validate_csrf_methods(cls, v):
         if v.upper() not in {"GET", "HEAD", "POST", "PUT", "DELETE", "PATCH"}:
             raise ValueError("The 'authjwt_csrf_methods' must be between http request methods")
