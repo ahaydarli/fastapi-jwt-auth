@@ -657,14 +657,27 @@ class AuthJWT(AuthConfig):
             raise
 
         try:
-            return jwt.decode(
-                encoded_token,
-                secret_key,
-                issuer=issuer,
-                audience=self._decode_audience,
-                leeway=self._decode_leeway,
-                algorithms=algorithms
-            )
+            try:
+                return jwt.decode(
+                    encoded_token,
+                    secret_key,
+                    issuer=issuer,
+                    audience=self._decode_audience,
+                    leeway=self._decode_leeway,
+                    algorithms=algorithms
+                )
+            except Exception as sub_err:
+                if "Subject must be a string" not in str(sub_err):
+                    raise
+                return jwt.decode(
+                    encoded_token,
+                    secret_key,
+                    issuer=issuer,
+                    audience=self._decode_audience,
+                    leeway=self._decode_leeway,
+                    algorithms=algorithms,
+                    options={"verify_sub": False}
+                )
         except Exception as err:
             raise JWTDecodeError(status_code=422,message=str(err))
 
