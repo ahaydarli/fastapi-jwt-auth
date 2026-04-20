@@ -157,7 +157,7 @@ class AuthJWT(AuthConfig):
 
         # Data section
         reserved_claims = {
-            "sub": subject,
+            "sub": str(subject),
             "iat": self._get_int_from_datetime(datetime.now(timezone.utc)),
             "nbf": self._get_int_from_datetime(datetime.now(timezone.utc)),
             "jti": self._get_jwt_identifier()
